@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged to check and fix code quality
+npx lint-staged
+
+# Run type checking for frontend
+npm run type-check
+
+# Run type checking for backend if it exists
+if [ -d "backend" ]; then
+  echo "Checking backend types..."
+  cd backend && npx tsc --noEmit && cd ..
+fi
+
+echo "✅ Pre-commit checks passed!"

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -12,7 +13,9 @@ import {
   Settings, 
   LifeBuoy,
   ChevronRight,
-  Brain
+  Brain,
+  UserCog,
+  Sparkles
 } from "lucide-react";
 import {
   Sidebar,
@@ -32,6 +35,9 @@ import { Badge } from "@/components/ui/badge";
 
 const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Employees", url: "/employees", icon: Users },
+  { title: "Talent Acquisition", url: "/job-descriptions", icon: Sparkles, badge: "AI" },
+  { title: "User Management", url: "/users", icon: UserCog },
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Time Off", url: "/time-off", icon: Clock },
   { title: "Projects", url: "/projects", icon: FolderOpen },
@@ -49,6 +55,7 @@ const favoriteItems = [
 
 export function AppSidebar() {
   const { state } = useSidebar();
+  const { user } = useUser();
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -155,12 +162,19 @@ export function AppSidebar() {
             </Link>
             <div className="flex items-center gap-3 px-3 py-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="" alt="User" />
-                <AvatarFallback className="bg-primary/10 text-primary text-xs">SW</AvatarFallback>
+                <AvatarImage src={user?.imageUrl || ""} alt="User" />
+                <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                  {user?.firstName?.[0]?.toUpperCase() || 
+                   user?.emailAddresses[0]?.emailAddress?.[0]?.toUpperCase() || 'U'}
+                </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">Sophia Williams</p>
-                <p className="text-xs text-muted-foreground truncate">sophia@alignui.com</p>
+                <p className="text-sm font-medium text-foreground truncate">
+                  {user?.fullName || user?.emailAddresses[0]?.emailAddress || 'User'}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {user?.emailAddresses[0]?.emailAddress || ''}
+                </p>
               </div>
             </div>
           </div>
