@@ -1,15 +1,15 @@
 import Header from "@/components/Header";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, AlertTriangle, CheckCircle } from "lucide-react";
 
 export default function Analytics() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Analytics Dashboard</h1>
+    <DashboardLayout>
+      <div className="p-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-foreground">Analytics Dashboard</h1>
           <p className="text-muted-foreground">
             Deep insights into your organization's well-being metrics and trends.
           </p>
@@ -103,7 +103,7 @@ export default function Analytics() {
             </CardContent>
           </Card>
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

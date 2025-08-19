@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -63,11 +64,10 @@ export default function Teams() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Team Management</h1>
+    <DashboardLayout>
+      <div className="p-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-foreground">Team Management</h1>
           <p className="text-muted-foreground">
             Monitor team health, engagement levels, and well-being metrics across your organization.
           </p>
@@ -126,7 +126,7 @@ export default function Teams() {
           ))}
         </div>
 
-        <Card className="mt-8 shadow-card border-border">
+        <Card className="mt-6 shadow-card border-border">
           <CardHeader>
             <CardTitle>Team Performance Overview</CardTitle>
           </CardHeader>
@@ -147,7 +147,7 @@ export default function Teams() {
             </div>
           </CardContent>
         </Card>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }
