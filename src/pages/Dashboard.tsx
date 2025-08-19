@@ -1,8 +1,4 @@
 import Header from "@/components/Header";
-import Analytics from "./Analytics";
-import Teams from "./Teams";
-import Settings from "./Settings";
-
 import WellBeingDashboard from "@/components/WellBeingDashboard";
 
 export default function Dashboard() {
