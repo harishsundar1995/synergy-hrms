@@ -13,6 +13,9 @@ import Settings from "./pages/Settings";
 import EmployeeManagement from "./pages/EmployeeManagement";
 import UserManagement from "./pages/UserManagement";
 import JobDescriptions from "./pages/JobDescriptions";
+import Candidates from "./pages/Candidates";
+import ApplicationPipeline from "./pages/ApplicationPipeline";
+import InterviewScheduling from "./pages/InterviewScheduling";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -46,6 +49,21 @@ const App = () => (
             <Route path="/job-descriptions" element={
               <ProtectedRoute>
                 <JobDescriptions />
+              </ProtectedRoute>
+            } />
+            <Route path="/candidates" element={
+              <ProtectedRoute>
+                <Candidates />
+              </ProtectedRoute>
+            } />
+                      <Route path="/pipeline" element={
+            <ProtectedRoute>
+              <ApplicationPipeline />
+            </ProtectedRoute>
+          } />
+            <Route path="/interviews" element={
+              <ProtectedRoute>
+                <InterviewScheduling />
               </ProtectedRoute>
             } />
             <Route path="/analytics" element={

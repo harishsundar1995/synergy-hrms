@@ -304,7 +304,7 @@ export default function JobDescriptions() {
         {/* Header */}
         <div className="flex justify-between items-start mb-12">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Talent Acquisition Suite</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Job Management</h1>
             <p className="text-gray-600 mt-3">
               AI-powered job management and optimization
             </p>

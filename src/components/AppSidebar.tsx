@@ -13,9 +13,13 @@ import {
   Settings, 
   LifeBuoy,
   ChevronRight,
+  ChevronDown,
   Brain,
   UserCog,
-  Sparkles
+  Sparkles,
+  Target,
+  UserCheck,
+  GitBranch
 } from "lucide-react";
 import {
   Sidebar,
@@ -36,7 +40,6 @@ import { Badge } from "@/components/ui/badge";
 const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Employees", url: "/employees", icon: Users },
-  { title: "Talent Acquisition", url: "/job-descriptions", icon: Sparkles, badge: "AI" },
   { title: "User Management", url: "/users", icon: UserCog },
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Time Off", url: "/time-off", icon: Clock },
@@ -45,6 +48,13 @@ const mainItems = [
   { title: "Notes", url: "/notes", icon: FileText },
   { title: "Benefits", url: "/benefits", icon: Gift, badge: "NEW" },
   { title: "Documents", url: "/documents", icon: File },
+];
+
+const talentAcquisitionItems = [
+  { title: "Jobs", url: "/job-descriptions", icon: FileText, badge: "AI" },
+  { title: "Candidates", url: "/candidates", icon: UserCheck, badge: "NEW" },
+  { title: "Tracker", url: "/pipeline", icon: GitBranch, badge: "AI" },
+  { title: "Interviews", url: "/interviews", icon: Calendar, badge: "SMART" },
 ];
 
 const favoriteItems = [
@@ -58,8 +68,13 @@ export function AppSidebar() {
   const { user } = useUser();
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isTalentAcquisitionOpen, setIsTalentAcquisitionOpen] = useState(true);
 
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path + '/');
+  
+  const isTalentAcquisitionActive = () => {
+    return talentAcquisitionItems.some(item => isActive(item.url));
+  };
 
   return (
     <Sidebar className={state === "collapsed" ? "w-14" : "w-60"} collapsible="icon">
@@ -114,6 +129,59 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              
+              {/* Talent Acquisition Section */}
+              <SidebarMenuItem>
+                <SidebarMenuButton 
+                  onClick={() => setIsTalentAcquisitionOpen(!isTalentAcquisitionOpen)}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
+                    isTalentAcquisitionActive()
+                      ? "bg-primary/10 text-primary font-medium border-r-2 border-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}
+                >
+                  <Target className={`h-4 w-4 ${state === "collapsed" ? "mx-auto" : ""}`} />
+                  {state !== "collapsed" && (
+                    <>
+                      <span className="flex-1">Talent Acquisition</span>
+                      <Badge variant="secondary" className="text-xs">AI</Badge>
+                      {isTalentAcquisitionOpen ? 
+                        <ChevronDown className="h-3 w-3" /> : 
+                        <ChevronRight className="h-3 w-3" />
+                      }
+                    </>
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              {/* Talent Acquisition Sub-items */}
+              {state !== "collapsed" && isTalentAcquisitionOpen && (
+                <>
+                  {talentAcquisitionItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          to={item.url}
+                          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ml-6 ${
+                            isActive(item.url)
+                              ? "bg-primary/10 text-primary font-medium border-r-2 border-primary"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          }`}
+                        >
+                          <item.icon className="h-4 w-4" />
+                          <span className="flex-1">{item.title}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="text-xs">
+                              {item.badge}
+                            </Badge>
+                          )}
+                          {isActive(item.url) && <ChevronRight className="h-3 w-3" />}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -160,23 +228,6 @@ export function AppSidebar() {
               <LifeBuoy className="h-4 w-4" />
               <span>Support</span>
             </Link>
-            <div className="flex items-center gap-3 px-3 py-2">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.imageUrl || ""} alt="User" />
-                <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                  {user?.firstName?.[0]?.toUpperCase() || 
-                   user?.emailAddresses[0]?.emailAddress?.[0]?.toUpperCase() || 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
-                  {user?.fullName || user?.emailAddresses[0]?.emailAddress || 'User'}
-                </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  {user?.emailAddresses[0]?.emailAddress || ''}
-                </p>
-              </div>
-            </div>
           </div>
         ) : (
           <div className="space-y-2">
@@ -192,10 +243,6 @@ export function AppSidebar() {
             >
               <LifeBuoy className="h-4 w-4" />
             </Link>
-            <Avatar className="h-8 w-8 mx-auto">
-              <AvatarImage src="" alt="User" />
-              <AvatarFallback className="bg-primary/10 text-primary text-xs">SW</AvatarFallback>
-            </Avatar>
           </div>
         )}
       </SidebarFooter>

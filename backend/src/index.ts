@@ -14,6 +14,9 @@ import organizationRoutes from './routes/organizations';
 import employeeRoutes from './routes/employees';
 import analyticsRoutes from './routes/analytics';
 import jobDescriptionRoutes from './routes/jobDescriptions';
+import candidateRoutes from './routes/candidates-mock';
+import applicationRoutes from './routes/applications-mock';
+import interviewRoutes from './routes/interviews-mock';
 import webhookRoutes from './routes/webhooks';
 
 // Load environment variables
@@ -82,6 +85,9 @@ app.use('/api/organizations', organizationRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/job-descriptions', jobDescriptionRoutes);
+app.use('/api/candidates', candidateRoutes);
+app.use('/api/applications', applicationRoutes);
+app.use('/api/interviews', interviewRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
 // Welcome route
