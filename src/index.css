@@ -129,3 +129,81 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Clerk UserProfile overflow handling */
+@layer components {
+  .cl-userProfile-root {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .cl-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .cl-profilePage {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .cl-profileSection {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .cl-profileSectionContent {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Ensure responsive behavior */
+  @media (max-width: 768px) {
+    .cl-userProfile-root,
+    .cl-card,
+    .cl-profilePage,
+    .cl-profileSection,
+    .cl-profileSectionContent {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+  }
+
+  /* Fix sidebar-header alignment */
+  [data-sidebar="sidebar"] {
+    height: 100vh !important;
+    position: sticky !important;
+    top: 0 !important;
+  }
+  
+  /* Ensure no gaps between sidebar and main content */
+  .sidebar-provider {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar-provider > div:first-child {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Remove any default margins/padding that could cause gaps */
+  aside[data-sidebar="sidebar"] {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  
+  /* Ensure header spans full width without gaps */
+  header {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}

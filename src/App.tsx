@@ -16,6 +16,7 @@ import JobDescriptions from "./pages/JobDescriptions";
 import Candidates from "./pages/Candidates";
 import ApplicationPipeline from "./pages/ApplicationPipeline";
 import InterviewScheduling from "./pages/InterviewScheduling";
+import AIIntelligence from "./pages/AIIntelligence";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -34,6 +35,11 @@ const App = () => (
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/ai-intelligence" element={
+              <ProtectedRoute>
+                <AIIntelligence />
               </ProtectedRoute>
             } />
             <Route path="/employees" element={

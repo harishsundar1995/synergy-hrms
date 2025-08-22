@@ -18,6 +18,7 @@ import candidateRoutes from './routes/candidates-mock';
 import applicationRoutes from './routes/applications-mock';
 import interviewRoutes from './routes/interviews-mock';
 import webhookRoutes from './routes/webhooks';
+import aiRoutes from './routes/ai';
 
 // Load environment variables
 dotenv.config();
@@ -88,6 +89,7 @@ app.use('/api/job-descriptions', jobDescriptionRoutes);
 app.use('/api/candidates', candidateRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/interviews', interviewRoutes);
+app.use('/api/ai', aiRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
 // Welcome route

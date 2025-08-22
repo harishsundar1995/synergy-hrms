@@ -62,7 +62,7 @@ const Header = () => {
   };
 
   return (
-    <header className="h-16 flex items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
+    <header className="h-16 flex items-center justify-between border-b bg-background px-6 shrink-0">
       <div className="flex items-center gap-4">
         <SidebarTrigger />
         <div className="flex flex-col">

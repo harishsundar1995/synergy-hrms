@@ -9,14 +9,10 @@ import {
   Users, 
   FileText, 
   Gift, 
-  File, 
   Settings, 
   LifeBuoy,
-  ChevronRight,
-  ChevronDown,
   Brain,
   UserCog,
-  Sparkles,
   Target,
   UserCheck,
   GitBranch
@@ -34,51 +30,39 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "AI Intelligence", url: "/ai-intelligence", icon: Brain, badge: "AI" },
   { title: "Employees", url: "/employees", icon: Users },
-  { title: "User Management", url: "/users", icon: UserCog },
   { title: "Calendar", url: "/calendar", icon: Calendar },
-  { title: "Time Off", url: "/time-off", icon: Clock },
   { title: "Projects", url: "/projects", icon: FolderOpen },
-  { title: "Team", url: "/teams", icon: Users },
-  { title: "Notes", url: "/notes", icon: FileText },
-  { title: "Benefits", url: "/benefits", icon: Gift, badge: "NEW" },
-  { title: "Documents", url: "/documents", icon: File },
 ];
 
-const talentAcquisitionItems = [
-  { title: "Jobs", url: "/job-descriptions", icon: FileText, badge: "AI" },
-  { title: "Candidates", url: "/candidates", icon: UserCheck, badge: "NEW" },
-  { title: "Tracker", url: "/pipeline", icon: GitBranch, badge: "AI" },
-  { title: "Interviews", url: "/interviews", icon: Calendar, badge: "SMART" },
+const managementItems = [
+  { title: "User Management", url: "/users", icon: UserCog },
+  { title: "Time Off", url: "/time-off", icon: Clock },
+  { title: "Benefits", url: "/benefits", icon: Gift },
 ];
 
-const favoriteItems = [
-  { title: "Synergy Team", url: "/teams/synergy", shortcut: "⌘1" },
-  { title: "Monday Redesign", url: "/projects/monday", shortcut: "⌘2" },
-  { title: "Udemy Courses", url: "/learning/udemy", shortcut: "⌘3" },
+const talentItems = [
+  { title: "Jobs", url: "/job-descriptions", icon: FileText },
+  { title: "Candidates", url: "/candidates", icon: UserCheck },
+  { title: "Pipeline", url: "/pipeline", icon: GitBranch },
+  { title: "Interviews", url: "/interviews", icon: Calendar },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
-  const { user } = useUser();
   const location = useLocation();
   const currentPath = location.pathname;
-  const [isTalentAcquisitionOpen, setIsTalentAcquisitionOpen] = useState(true);
 
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path + '/');
-  
-  const isTalentAcquisitionActive = () => {
-    return talentAcquisitionItems.some(item => isActive(item.url));
-  };
 
   return (
-    <Sidebar className={state === "collapsed" ? "w-14" : "w-60"} collapsible="icon">
-      <SidebarHeader className="p-4">
+    <Sidebar className="border-r">
+      <SidebarHeader className="p-4 border-b">
         {state !== "collapsed" && (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
@@ -97,149 +81,150 @@ export function AppSidebar() {
         )}
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="flex flex-col gap-2">
+        {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel className={state === "collapsed" ? "sr-only" : ""}>MAIN</SidebarGroupLabel>
+          <SidebarGroupLabel className={state === "collapsed" ? "sr-only" : "text-xs font-medium text-muted-foreground uppercase tracking-wider px-3"}>
+            Main
+          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link
                       to={item.url}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
                         isActive(item.url)
-                          ? "bg-primary/10 text-primary font-medium border-r-2 border-primary"
+                          ? "bg-primary text-primary-foreground shadow-sm"
                           : "text-muted-foreground hover:bg-muted hover:text-foreground"
                       }`}
                     >
                       <item.icon className={`h-4 w-4 ${state === "collapsed" ? "mx-auto" : ""}`} />
                       {state !== "collapsed" && (
                         <>
-                          <span className="flex-1">{item.title}</span>
+                          <span className="flex-1 font-medium">{item.title}</span>
                           {item.badge && (
-                            <Badge variant="secondary" className="text-xs">
+                            <Badge variant="outline" className="text-xs px-1.5 py-0.5 bg-primary/10 text-primary border-primary/20">
                               {item.badge}
                             </Badge>
                           )}
-                          {isActive(item.url) && <ChevronRight className="h-3 w-3" />}
                         </>
                       )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              
-              {/* Talent Acquisition Section */}
-              <SidebarMenuItem>
-                <SidebarMenuButton 
-                  onClick={() => setIsTalentAcquisitionOpen(!isTalentAcquisitionOpen)}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                    isTalentAcquisitionActive()
-                      ? "bg-primary/10 text-primary font-medium border-r-2 border-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
-                >
-                  <Target className={`h-4 w-4 ${state === "collapsed" ? "mx-auto" : ""}`} />
-                  {state !== "collapsed" && (
-                    <>
-                      <span className="flex-1">Talent Acquisition</span>
-                      <Badge variant="secondary" className="text-xs">AI</Badge>
-                      {isTalentAcquisitionOpen ? 
-                        <ChevronDown className="h-3 w-3" /> : 
-                        <ChevronRight className="h-3 w-3" />
-                      }
-                    </>
-                  )}
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              {/* Talent Acquisition Sub-items */}
-              {state !== "collapsed" && isTalentAcquisitionOpen && (
-                <>
-                  {talentAcquisitionItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
-                        <Link
-                          to={item.url}
-                          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ml-6 ${
-                            isActive(item.url)
-                              ? "bg-primary/10 text-primary font-medium border-r-2 border-primary"
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                          }`}
-                        >
-                          <item.icon className="h-4 w-4" />
-                          <span className="flex-1">{item.title}</span>
-                          {item.badge && (
-                            <Badge variant="secondary" className="text-xs">
-                              {item.badge}
-                            </Badge>
-                          )}
-                          {isActive(item.url) && <ChevronRight className="h-3 w-3" />}
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </>
-              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {state !== "collapsed" && (
-          <SidebarGroup>
-            <SidebarGroupLabel>FAVORITES</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {favoriteItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link
-                        to={item.url}
-                        className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                      >
-                        <div className="w-2 h-2 rounded-full bg-primary"></div>
-                        <span className="flex-1">{item.title}</span>
-                        <span className="text-xs text-muted-foreground">{item.shortcut}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+        {/* Management */}
+        <SidebarGroup>
+          <SidebarGroupLabel className={state === "collapsed" ? "sr-only" : "text-xs font-medium text-muted-foreground uppercase tracking-wider px-3"}>
+            Management
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              {managementItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      to={item.url}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                        isActive(item.url)
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      }`}
+                    >
+                      <item.icon className={`h-4 w-4 ${state === "collapsed" ? "mx-auto" : ""}`} />
+                      {state !== "collapsed" && (
+                        <span className="flex-1 font-medium">{item.title}</span>
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Talent */}
+        <SidebarGroup>
+          <SidebarGroupLabel className={state === "collapsed" ? "sr-only" : "text-xs font-medium text-muted-foreground uppercase tracking-wider px-3"}>
+            Talent
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              {talentItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      to={item.url}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                        isActive(item.url)
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      }`}
+                    >
+                      <item.icon className={`h-4 w-4 ${state === "collapsed" ? "mx-auto" : ""}`} />
+                      {state !== "collapsed" && (
+                        <span className="flex-1 font-medium">{item.title}</span>
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 border-t">
+      <SidebarFooter className="p-4 border-t border-border/50">
         {state !== "collapsed" ? (
-          <div className="space-y-3">
+          <div className="space-y-1">
             <Link
               to="/settings"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                isActive("/settings")
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
             >
               <Settings className="h-4 w-4" />
-              <span>Settings</span>
+              <span className="font-medium">Settings</span>
             </Link>
             <Link
               to="/support"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                isActive("/support")
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
             >
               <LifeBuoy className="h-4 w-4" />
-              <span>Support</span>
+              <span className="font-medium">Support</span>
             </Link>
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Link
               to="/settings"
-              className="flex items-center justify-center p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className={`flex items-center justify-center p-2.5 rounded-lg transition-all duration-200 ${
+                isActive("/settings")
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
             >
               <Settings className="h-4 w-4" />
             </Link>
             <Link
               to="/support"
-              className="flex items-center justify-center p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className={`flex items-center justify-center p-2.5 rounded-lg transition-all duration-200 ${
+                isActive("/support")
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
             >
               <LifeBuoy className="h-4 w-4" />
             </Link>

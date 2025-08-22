@@ -368,7 +368,7 @@ export default function Pipeline() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-8">
+      <div className="space-y-6 w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           <div>
@@ -464,29 +464,30 @@ export default function Pipeline() {
         </Card>
 
         {/* Pipeline Board */}
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
-            {pipelineStages.map((stage) => {
-              const stageApplications = getStageApplications(stage.id).filter(app => 
-                filteredApplications.includes(app)
-              );
-              
-              return (
-                <Card key={stage.id} className="min-h-[600px] border-0 shadow-lg">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className={`w-3 h-3 rounded-full ${stage.color}`} />
-                        <CardTitle className="text-sm font-semibold">{stage.name}</CardTitle>
+        <div className="w-full">
+          <div className="overflow-x-auto">
+            <div className="flex gap-6 pb-4 w-fit min-w-full">
+              {pipelineStages.map((stage) => {
+                const stageApplications = getStageApplications(stage.id).filter(app => 
+                  filteredApplications.includes(app)
+                );
+                
+                return (
+                  <Card key={stage.id} className="min-h-[600px] w-80 flex-shrink-0 border-0 shadow-lg">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-3 h-3 rounded-full ${stage.color}`} />
+                          <CardTitle className="text-sm font-semibold">{stage.name}</CardTitle>
+                        </div>
+                        <Badge variant="secondary" className="text-xs">
+                          {stageApplications.length}
+                        </Badge>
                       </div>
-                      <Badge variant="secondary" className="text-xs">
-                        {stageApplications.length}
-                      </Badge>
-                    </div>
-                    <CardDescription className="text-xs">
-                      {stage.description}
-                    </CardDescription>
-                  </CardHeader>
+                      <CardDescription className="text-xs">
+                        {stage.description}
+                      </CardDescription>
+                    </CardHeader>
                   
                   <CardContent className="pt-0 space-y-3">
                     {loading ? (
@@ -652,6 +653,7 @@ export default function Pipeline() {
                 </Card>
               );
             })}
+            </div>
           </div>
         </div>
       </div>
