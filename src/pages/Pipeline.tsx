@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { 
@@ -283,11 +283,7 @@ export default function Pipeline() {
     }
   ];
 
-  useEffect(() => {
-    loadApplications();
-  }, []);
-
-  const loadApplications = async () => {
+  const loadApplications = useCallback(async () => {
     try {
       setLoading(true);
       // In a real app, this would be an API call
@@ -299,7 +295,11 @@ export default function Pipeline() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadApplications();
+  }, [loadApplications]);
 
   const getStageApplications = (stageId: string) => {
     return applications.filter(app => app.pipeline.currentStage === stageId);

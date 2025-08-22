@@ -131,7 +131,7 @@ export interface ICandidate extends Document {
     type: 'application' | 'email' | 'call' | 'interview' | 'note' | 'status_change' | 'document_upload';
     description: string;
     performedBy: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     timestamp: Date;
   }>;
   

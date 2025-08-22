@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { Interview, InterviewType, InterviewStatus, Recommendation } from '../models/Interview';
 
 const router = express.Router();
@@ -9,7 +9,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 // Simple auth middleware for development
-const authenticateToken = (req: AuthenticatedRequest, res: Response, next: any) => {
+const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   // Mock authentication - in production, validate JWT token
   req.user = { id: '66c4a1b2f8d3e12345678905', email: 'admin@company.com' };
   next();
@@ -534,7 +534,7 @@ router.post('/', async (req: AuthenticatedRequest, res: Response) => {
         calendarProvider: meetingLink?.includes('zoom') ? 'zoom' : 
                          meetingLink?.includes('teams') ? 'teams' : 'google'
       },
-      interviewers: interviewers.map((interviewer: any) => ({
+      interviewers: interviewers.map((interviewer: { _id?: string; firstName: string; lastName: string; email: string; role: string; department: string }) => ({
         _id: interviewer._id || `interviewer_${Date.now()}`,
         firstName: interviewer.firstName,
         lastName: interviewer.lastName,
@@ -634,7 +634,7 @@ router.post('/:id/feedback', async (req: AuthenticatedRequest, res: Response) =>
 
     // Add feedback to interview
     if (!mockInterviews[interviewIndex].feedback) {
-      (mockInterviews[interviewIndex] as any).feedback = [];
+      (mockInterviews[interviewIndex] as Record<string, unknown>).feedback = [];
     }
     mockInterviews[interviewIndex].feedback!.push(feedback);
 
@@ -680,7 +680,7 @@ router.post('/:id/reschedule', async (req: AuthenticatedRequest, res: Response) 
 
     // Add to reschedule history
     if (!interview.rescheduleHistory) {
-      (interview as any).rescheduleHistory = [];
+      (interview as Record<string, unknown>).rescheduleHistory = [];
     }
 
     interview.rescheduleHistory!.push({

@@ -25,7 +25,7 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res: Respons
     } = req.query;
 
     // Build filter object
-    const filter: any = {
+    const filter: Record<string, unknown> = {
       organizationId: req.dbUser?.organizationId
     };
 
@@ -355,7 +355,7 @@ router.post('/bulk-actions', authenticateUser, async (req: AuthenticatedRequest,
       return;
     }
 
-    let updateData: any = { updatedAt: new Date() };
+    let updateData: Record<string, unknown> = { updatedAt: new Date() };
 
     switch (action) {
       case 'archive':

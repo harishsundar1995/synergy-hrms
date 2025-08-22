@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { 
@@ -253,11 +253,7 @@ const InterviewScheduling = () => {
     }
   ];
 
-  useEffect(() => {
-    loadInterviews();
-  }, []);
-
-  const loadInterviews = async () => {
+  const loadInterviews = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -294,7 +290,11 @@ const InterviewScheduling = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getToken]);
+
+  useEffect(() => {
+    loadInterviews();
+  }, [loadInterviews]);
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {

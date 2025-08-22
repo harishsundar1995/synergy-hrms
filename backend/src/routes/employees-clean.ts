@@ -88,7 +88,7 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res: Respons
     const skip = (page - 1) * limit;
 
     // Build filter object
-    const filter: any = { isActive: true };
+    const filter: Record<string, unknown> = { isActive: true };
 
     if (query.search) {
       filter.$or = [
@@ -121,7 +121,7 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res: Respons
     }
 
     // Build sort object
-    const sort: any = {};
+    const sort: Record<string, 1 | -1> = {};
     sort[query.sortBy] = query.sortOrder === 'desc' ? -1 : 1;
 
     const [employees, total] = await Promise.all([
@@ -214,7 +214,7 @@ router.post('/', authenticateUser, async (req: AuthenticatedRequest, res: Respon
     }
 
     // Convert date strings to Date objects and prepare data
-    const employeeData: any = {
+    const employeeData: Record<string, unknown> = {
       clerkId: validatedData.clerkId,
       employeeId: validatedData.employeeId,
       organizationId: new Types.ObjectId(validatedData.organizationId),

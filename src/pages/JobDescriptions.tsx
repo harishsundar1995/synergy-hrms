@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { 
@@ -153,7 +153,7 @@ export default function JobDescriptions() {
   });
 
   // Fetch job descriptions
-  const fetchJobDescriptions = async () => {
+  const fetchJobDescriptions = useCallback(async () => {
     try {
       setLoading(true);
       const token = await getToken();
@@ -196,7 +196,7 @@ export default function JobDescriptions() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getToken, filters]);
 
   // Generate AI job description
   const generateAIJobDescription = async () => {
@@ -270,7 +270,7 @@ export default function JobDescriptions() {
 
   useEffect(() => {
     fetchJobDescriptions();
-  }, [filters]);
+  }, [fetchJobDescriptions]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

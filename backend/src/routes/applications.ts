@@ -25,7 +25,7 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res: Respons
     } = req.query;
 
     // Build filter object
-    const filter: any = {
+    const filter: Record<string, unknown> = {
       organizationId: req.dbUser?.organizationId
     };
 
@@ -80,7 +80,7 @@ router.get('/', authenticateUser, async (req: AuthenticatedRequest, res: Respons
 
     stageCounts.forEach(stage => {
       if (stage._id in stageStats) {
-        (stageStats as any)[stage._id] = stage.count;
+        (stageStats as Record<string, number>)[stage._id] = stage.count;
       }
     });
 

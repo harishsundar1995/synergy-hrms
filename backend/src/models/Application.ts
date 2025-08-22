@@ -91,7 +91,7 @@ export interface IApplication extends Document {
       score?: number;
       maxScore?: number;
       passed: boolean;
-      results?: any;
+      results?: Record<string, unknown>;
       feedback?: string;
       url?: string;
     }>;
@@ -265,7 +265,7 @@ export interface IApplication extends Document {
     readAt?: Date;
     replied?: boolean;
     attachments?: string[];
-    metadata?: any;
+    metadata?: Record<string, unknown>;
   }>;
   
   notes: Array<{

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { 
@@ -287,11 +287,7 @@ export default function Candidates() {
     }
   ];
 
-  useEffect(() => {
-    loadCandidates();
-  }, []);
-
-  const loadCandidates = async () => {
+  const loadCandidates = useCallback(async () => {
     try {
       setLoading(true);
       const token = await getToken();
@@ -327,7 +323,11 @@ export default function Candidates() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getToken, searchQuery, selectedFilters]);
+
+  useEffect(() => {
+    loadCandidates();
+  }, [loadCandidates]);
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
